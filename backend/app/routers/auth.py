@@ -8,12 +8,13 @@ from app.config import settings
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 def set_auth_cookie(response: Response, token: str):
+    is_prod = settings.environment == "production"
     response.set_cookie(
         key="token",
         value=token,
         httponly=True,
-        secure=settings.environment == "production",
-        samesite="lax",
+        secure=is_prod,
+        samesite="none" if is_prod else "lax",
         max_age=7 * 24 * 60 * 60,
     )
 
