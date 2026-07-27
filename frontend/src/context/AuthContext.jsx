@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export function AuthProvider({ children }) {
 
   const fetchMe = async () => {
     try {
-      const res = await fetch('/api/auth/me', { credentials: 'include' });
+      const res = await apiFetch('/api/auth/me', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setUser(data);
@@ -27,7 +28,7 @@ export function AuthProvider({ children }) {
   };
 
   const login = async (email, password) => {
-    const res = await fetch('/api/auth/login', {
+    const res = await apiFetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -44,7 +45,7 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async (name, email, password, hostel_room) => {
-    const res = await fetch('/api/auth/signup', {
+    const res = await apiFetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -61,7 +62,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await fetch('/api/auth/logout', {
+    await apiFetch('/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
     });

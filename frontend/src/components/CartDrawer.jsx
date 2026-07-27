@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { X, Trash2, Plus, Minus, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -32,7 +33,7 @@ export default function CartDrawer() {
         })),
       };
 
-      const res = await fetch('/api/orders/', {
+      const res = await apiFetch('/api/orders/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

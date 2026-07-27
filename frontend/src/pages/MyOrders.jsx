@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { Clock, CheckCircle2, AlertTriangle, XCircle, ChevronRight, RefreshCw } from 'lucide-react';
 
 const STATUS_STEPS = ['placed', 'preparing', 'ready', 'completed'];
@@ -18,7 +19,7 @@ export default function MyOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch('/api/orders/my', { credentials: 'include' });
+      const res = await apiFetch('/api/orders/my', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
@@ -33,7 +34,7 @@ export default function MyOrders() {
   const handleCancel = async (orderId) => {
     setCancellingId(orderId);
     try {
-      const res = await fetch(`/api/orders/${orderId}/cancel`, {
+      const res = await apiFetch(`/api/orders/${orderId}/cancel`, {
         method: 'PATCH',
         credentials: 'include',
       });

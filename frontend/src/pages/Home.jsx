@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { apiFetch } from '../utils/api';
 import { Search, Plus, Check, Utensils, Flame, Leaf, Coffee, Pizza, Sparkles } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Breakfast', 'Lunch', 'Snacks', 'Beverages'];
@@ -19,7 +20,7 @@ export default function Home() {
 
   const fetchMenu = async () => {
     try {
-      const res = await fetch('/api/menu/');
+      const res = await apiFetch('/api/menu/');
       if (res.ok) {
         const data = await res.json();
         setItems(data);

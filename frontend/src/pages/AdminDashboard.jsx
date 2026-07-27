@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiFetch } from '../utils/api';
 import { Shield, Plus, ToggleLeft, ToggleRight, CheckCircle2, Clock, Utensils, RefreshCw, Trash2, Edit3 } from 'lucide-react';
 
 const STATUSES = ['all', 'placed', 'preparing', 'ready', 'completed', 'cancelled'];
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
   const fetchOrders = async () => {
     try {
       const url = selectedStatus === 'all' ? '/api/orders/' : `/api/orders/?status=${selectedStatus}`;
-      const res = await fetch(url, { credentials: 'include' });
+      const res = await apiFetch(url, { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setOrders(data);
@@ -46,7 +47,7 @@ export default function AdminDashboard() {
 
   const fetchMenuItems = async () => {
     try {
-      const res = await fetch('/api/menu/all', { credentials: 'include' });
+      const res = await apiFetch('/api/menu/all', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setMenuItems(data);
@@ -58,7 +59,7 @@ export default function AdminDashboard() {
 
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`/api/orders/${orderId}/status`, {
+      const res = await apiFetch(`/api/orders/${orderId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -74,7 +75,7 @@ export default function AdminDashboard() {
 
   const handleToggleAvailability = async (itemId) => {
     try {
-      const res = await fetch(`/api/menu/${itemId}/availability`, {
+      const res = await apiFetch(`/api/menu/${itemId}/availability`, {
         method: 'PATCH',
         credentials: 'include',
       });
@@ -89,7 +90,7 @@ export default function AdminDashboard() {
   const handleDeleteItem = async (itemId) => {
     if (!confirm('Are you sure you want to delete this menu item?')) return;
     try {
-      const res = await fetch(`/api/menu/${itemId}`, {
+      const res = await apiFetch(`/api/menu/${itemId}`, {
         method: 'DELETE',
         credentials: 'include',
       });
@@ -104,7 +105,7 @@ export default function AdminDashboard() {
   const handleCreateMenuItem = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/menu/', {
+      const res = await apiFetch('/api/menu/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
